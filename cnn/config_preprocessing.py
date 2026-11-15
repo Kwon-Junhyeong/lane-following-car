@@ -1,0 +1,10 @@
+SRC_POINTS = [(0, 390), (640, 390), (640, 190), (0, 190)]
+DST_POINTS = [(0, 480), (640, 480), (640, 0), (0, 0)]
+BEV_SIZE = (640, 480)
+
+USE_BLUR = True
+BLUR_KERNEL = (5, 5)
+
+THRESHOLD_TYPE = "adaptive"
+ADAPTIVE_BLOCK_SIZE = 11
+ADAPTIVE_C = 2
