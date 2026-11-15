@@ -1,0 +1,23 @@
+{
+ "floor_bgr": [
+  50,
+  59,
+  45
+ ],
+ "line_bgr": [
+  231,
+  229,
+  220
+ ],
+ "glare_peak_v": [
+  200,
+  240
+ ],
+ "glare_g_over_b": 0.97,
+ "glare_r_over_b": 0.93,
+ "glare_axis_m": [
+  0.03,
+  0.1
+ ],
+ "glare_per_m": 12.0
+}
