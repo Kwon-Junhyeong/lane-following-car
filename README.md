@@ -4,7 +4,7 @@ A camera-only autonomous model car for the 3rd Autonomous Model Car Contest of t
 
 - **Lane detection that holds under glare.** The glossy black floor reflects the ceiling lights as bright patches, and the brightness changes across the room. An HSV white mask before Otsu thresholding and a filter that keeps only the two largest white regions remove those patches. In a closed-loop simulation with the car's camera geometry and reflections matched to the recordings, this pipeline completes every lap over the recorded brightness range, where the first version's grayscale threshold leaves the lane within the first fifth of the lap.
 - **Detection moved off the car.** YOLO could not run on the car's Raspberry Pi, so the car encodes the newest frame as a JPEG, sends it to a laptop once a second, and receives only the selected label as JSON. The drive loop never waits for it.
-- **Hyperparameters tuned with Bayesian optimization** (Optuna) to get the most out of the limited training time.
+- **Hyperparameters tuned with Bayesian optimization** to get the most out of the limited training time.
 - **The course run as a state machine.** The course is split into sections (hill, right turn, gate, parked cars), each with its own state, its trigger label and a lane-following or timed maneuver.
 
 ![Threads on the Raspberry Pi and the laptop, with the detector label returning to the state machine](docs/system.png)
