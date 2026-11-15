@@ -1,0 +1,30 @@
+% Closed-loop simulation (sim/lane_sim.py, sim/summarize_sim.py): share of one lap driven before the car's center
+% crosses a lane line, mean of four reflection layouts, against the brightness of the camera band.
+% Orange: the final preprocessing of car/modules. Black: the grayscale Otsu threshold of the first pipeline.
+% Shaded: brightness range of the recorded clips (band mean V 54 to 101).
+\documentclass[border=1.5pt]{standalone}
+\input{spl_style.tex}
+\begin{document}
+\begin{tikzpicture}[font=\figfont]
+\begin{groupplot}[group style={group size=3 by 1, horizontal sep=7mm, y descriptions at=edge left},
+  spl, width=50mm, height=40mm, tick label style={font=\figfont, text=cInk},
+  xmin=60, xmax=115, ymin=-5, ymax=105, xtick={60,70,80,90,100,110}, ytick={0,25,50,75,100},
+  xlabel={Band mean V}, grid=none, ymajorgrids, clip=false]
+\nextgroupplot[title={no reflections}, ylabel={Lap driven (\%)},
+  legend to name=legsim, legend columns=3, legend style={font=\figfont, /tikz/every even column/.append style={column sep=4mm}}]
+\fill[cGrid] (axis cs:60,-5) rectangle (axis cs:101,105);
+\addlegendimage{area legend, fill=cGrid, draw=cGrid} \addlegendentry{recorded brightness}
+\addplot[cInk, line width=0.8pt, mark=*, mark size=1.3pt] table[x=band_v, y=lap_pct] {sim_grayscale_0.dat}; \addlegendentry{grayscale Otsu (first pipeline)}
+\addplot[cCal, line width=1.3pt, mark=square*, mark size=1.4pt] table[x=band_v, y=lap_pct] {sim_final_0.dat}; \addlegendentry{HSV mask, two largest regions (final)}
+\nextgroupplot[title={reflections as recorded}]
+\fill[cGrid] (axis cs:60,-5) rectangle (axis cs:101,105);
+\addplot[cInk, line width=0.8pt, mark=*, mark size=1.3pt] table[x=band_v, y=lap_pct] {sim_grayscale_1.dat};
+\addplot[cCal, line width=1.3pt, mark=square*, mark size=1.4pt] table[x=band_v, y=lap_pct] {sim_final_1.dat};
+\nextgroupplot[title={twice as many}]
+\fill[cGrid] (axis cs:60,-5) rectangle (axis cs:101,105);
+\addplot[cInk, line width=0.8pt, mark=*, mark size=1.3pt] table[x=band_v, y=lap_pct] {sim_grayscale_2.dat};
+\addplot[cCal, line width=1.3pt, mark=square*, mark size=1.4pt] table[x=band_v, y=lap_pct] {sim_final_2.dat};
+\end{groupplot}
+\node[anchor=south] at ($(group c2r1.north)+(0,5.5mm)$) {\pgfplotslegendfromname{legsim}};
+\end{tikzpicture}
+\end{document}

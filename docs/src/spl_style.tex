@@ -1,0 +1,42 @@
+% Shared look of the figures in docs/. Input from a standalone file: \input{spl_style.tex}
+% Text is black and at least 8 pt. Blue: output of this repository's code. Orange: the one item each figure points at.
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots,pgfplotstable}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,decorations.pathreplacing}
+\usepgfplotslibrary{groupplots,fillbetween}
+
+\definecolor{cInit}{HTML}{0072B2}
+\definecolor{cCal}{HTML}{D55E00}
+\definecolor{cRef}{HTML}{1F2933}
+\definecolor{cBase}{HTML}{6B7280}
+\definecolor{cInk}{HTML}{000000}
+\definecolor{cMuted}{HTML}{6B7280}
+\definecolor{cGrid}{HTML}{E3E6EA}
+\definecolor{cInitL}{HTML}{E3F0F8}
+\definecolor{cCalL}{HTML}{FBEADF}
+\definecolor{cPanel}{HTML}{F4F5F7}
+\color{cInk}
+
+\newcommand{\figfont}{\fontsize{8}{9.5}\selectfont}
+\newcommand{\figsmall}{\fontsize{7}{8.4}\selectfont}
+
+\pgfplotsset{
+  spl/.style={
+    width=44mm, height=36mm, scale only axis=false,
+    axis line style={cMuted, line width=0.5pt},
+    tick style={cMuted, line width=0.5pt}, tick align=outside,
+    tick label style={font=\figfont, text=cInk},
+    label style={font=\figfont, text=cInk},
+    title style={font=\figfont, text=cInk, yshift=-1.5mm},
+    legend style={font=\figfont, draw=none, fill=none, text=cInk, inner sep=0pt},
+    legend cell align=left,
+    grid=major, major grid style={cGrid, line width=0.4pt},
+    axis lines*=left, clip mode=individual,
+    every axis plot/.append style={line width=0.9pt},
+  },
+}
