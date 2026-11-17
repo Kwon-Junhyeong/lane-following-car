@@ -1,20 +1,8 @@
 #!/usr/bin/env python3
-"""Closed-loop simulation of the lane follower on a synthetic camera image.
+"""Closed-loop lane simulation with ceiling-light reflections on the floor.
 
-Each step renders what the car's camera would see of a flat oval track (white lines on a dark floor, neighboring
-lanes, reflections of the ceiling lights as bright patches), runs the repository's lane code on that frame in the
-car's channel order, applies the drive command of the lane-following states, and moves a kinematic bicycle model.
-
-Preprocessing compared:
-  final      car/modules: HSV white mask, Otsu, closing, two largest regions (SteeringAnalyzer.analyze_frame)
-  grayscale  the threshold of the first pipeline (cnn/drive.py): blurred grayscale band, Otsu; same steering
-
-Camera: pinhole, fitted to the recorded straight frames (outer lane edges at x = 127 and 500 on image row 330,
-184 and 445 on row 270, line 28 px wide on row 330). Floor, line and reflection colors are the medians measured
-on the recordings (sim/calibration.json). The vehicle values marked ASSUMED are not measured on the kit.
-
-usage: python sim/lane_sim.py OUT.csv            full sweep (multiprocessing)
-       python sim/lane_sim.py --frame GAIN GLARE S OUT.png   one rendered frame, for a look
+usage: python sim/lane_sim.py OUT.csv
+       python sim/lane_sim.py --frame GAIN GLARE S OUT.png
 """
 import os
 import sys
@@ -33,21 +21,21 @@ sys.dont_write_bytecode = True
 from modules.steering_module import SteeringAnalyzer  # noqa: E402
 from modules import fsm_module  # noqa: E402
 
-# ---------------- camera (fitted, see header) ----------------
-F_PX = 250.0             # focal length in pixels (horizontal field of view about 104 degrees)
+# camera
+F_PX = 250.0             # focal length, px
 CX, CY = 320.0, 240.0
-CAM_H = 0.12             # camera height above the floor, m
+CAM_H = 0.12             # height above the floor, m
 PITCH = math.radians(23.8)
-CAM_X = 0.15             # camera ahead of the rear axle, m (ASSUMED)
+CAM_X = 0.15             # ahead of the rear axle, m
 
-# ---------------- track ----------------
-LANE_W = 0.226           # line center to line center, m (outer edges 0.244 m apart, from the fit)
-LINE_W = 0.018           # line width, m
-STRAIGHT = 2.0           # length of each straight, m
-RADIUS = 0.6             # radius of the lane center in the bends, m
-LINES = [-1.5 * LANE_W, -0.5 * LANE_W, 0.5 * LANE_W, 1.5 * LANE_W]   # current lane and one neighbor on each side
+# track
+LANE_W = 0.226           # line center to line center, m
+LINE_W = 0.018           # m
+STRAIGHT = 2.0           # m
+RADIUS = 0.6             # m
+LINES = [-1.5 * LANE_W, -0.5 * LANE_W, 0.5 * LANE_W, 1.5 * LANE_W]
 
-# ---------------- vehicle (ASSUMED) ----------------
+# vehicle
 WHEELBASE = 0.16         # m
 MAX_STEER = math.radians(25.0)   # front wheel angle at full lock
 SPEED = {80: 0.30, 60: 0.22}     # m/s for the motor values the code sends
@@ -134,7 +122,7 @@ def render(x, y, th, gain, blobs, rng):
     line = np.array(CAL["line_bgr"], np.float32)
     cover = cover.astype(np.float32)
     img = floor[None, None, :] * (1 - cover[..., None]) + line[None, None, :] * cover[..., None]
-    # reflections: brightness above the floor, on a grid of every 4th pixel (the patches are smooth), then upsampled
+    # reflections on every 4th pixel, then upsampled
     gx, gy = wx[2::4, 2::4], wy[2::4, 2::4]
     lift = np.zeros(gx.shape, np.float32)
     for bx, by, a, b, ang, peak in blobs:

@@ -1,1 +1,0 @@
-frames 10234; binary differs on 10231; kept image differs on 10143; lane angle differs on 219, by at most 13.01 degrees
