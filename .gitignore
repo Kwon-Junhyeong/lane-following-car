@@ -1,9 +1,2 @@
 __pycache__/
 *.pyc
-build/
-install/
-log/
-*.jou
-xsim.dir/
-.Xil/
-.vscode/
