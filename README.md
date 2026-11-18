@@ -18,7 +18,7 @@ The course is split into sections: hill, right turn, gate, parked cars. Each sec
 
 ## Steering CNN
 
-`cnn/` sorts recorded frames into forward, left and right, trains a small CNN on them, and drives the car with it (`cnn/drive.py`).
+`cnn/` sorts recorded frames into forward, left and right and trains a small CNN on them. It steered an earlier version of the car (`cnn/drive.py`).
 
 ## Run
 
