@@ -14,7 +14,7 @@ YOLO could not run on the car's Raspberry Pi, so the work is split. The drive lo
 
 ## One state per course section
 
-The course is split into sections: hill, right turn, gate, parked cars. Each section has its own state, and each state reacts only to the label of the next section, so the labels of other sections do not trigger a maneuver.
+The course is split into sections: hill, right turn, gate, parked cars, traffic light. Each section has its own state, and each state reacts only to the label of the next section, so the labels of other sections do not trigger a maneuver.
 
 ## Steering CNN
 
