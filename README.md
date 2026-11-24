@@ -2,7 +2,7 @@
 
 A camera-only model car that drives the course of the 2025 Autonomous Driving Contest at Chung-Ang University. It keeps its lane on the black floor of the course and passes a hill, a right turn, a gate, parked cars and a traffic light. Lane following runs on the car's Raspberry Pi; YOLOv8n runs on a laptop beside the track and sends back only the label the car needs.
 
-![The car on the black track with white lane lines, the band of floor its lane code reads, a right-turn sign where the lane turns right, and the laptop that receives one frame a second and returns a label](docs/scene.png)
+![The car on the black track with white lane lines and lane detection on the car from the floor in front of its camera, a right-turn sign where the lane turns right, and a laptop beside the track that receives frames from the car's computer, detects signs and obstacles, and returns a label](docs/scene.png)
 
 Excellence Award at the contest. On 10,234 frames recorded by the car's camera on the track, the HSV white mask lets through a median of 5 white regions per frame where the grayscale threshold of the first version lets through 9, and the region filter keeps the two largest for steering.
 
